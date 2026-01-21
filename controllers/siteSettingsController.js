@@ -37,7 +37,6 @@ const updateTheme = asyncHandler(async (req, res) => {
         settings.activeThemeName = name || settings.activeThemeName;
         const updatedSettings = await settings.save();
 
-        req.io.emit('theme:update', updatedSettings.theme); // Real-time update for all users
         res.json(updatedSettings);
     } else {
         const newSettings = new SiteSettings({
@@ -46,7 +45,6 @@ const updateTheme = asyncHandler(async (req, res) => {
         });
         const createdSettings = await newSettings.save();
 
-        req.io.emit('theme:update', createdSettings.theme);
         res.json(createdSettings);
     }
 });

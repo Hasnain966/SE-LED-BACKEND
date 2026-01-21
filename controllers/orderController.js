@@ -42,8 +42,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
         const createdOrder = await order.save();
 
         // Emit Real-Time Event
-        req.io.emit('order:new', createdOrder);
-        req.io.emit('admin:statsUpdate'); // Signal to refresh stats
+        // req.io.emit('order:new', createdOrder);
+        // req.io.emit('admin:statsUpdate'); // Signal to refresh stats
 
         res.status(201).json(createdOrder);
     }
@@ -117,7 +117,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
         });
 
         const updatedOrder = await order.save();
-        req.io.emit('order:update', updatedOrder); // Real-time update
+        // req.io.emit('order:update', updatedOrder); // Real-time update
         res.json(updatedOrder);
     } else {
         res.status(404);
@@ -137,7 +137,7 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
         order.status = 'Delivered';
 
         const updatedOrder = await order.save();
-        req.io.emit('order:update', updatedOrder);
+        // req.io.emit('order:update', updatedOrder);
         res.json(updatedOrder);
     } else {
         res.status(404);

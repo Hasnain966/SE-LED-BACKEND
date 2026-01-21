@@ -32,9 +32,9 @@ const getProductById = asyncHandler(async (req, res) => {
         product.views = Number(product.views || 0) + 1;
         await product.save().catch(err => console.error(err.message));
 
-        if (req.io && typeof req.io.emit === 'function') {
-            req.io.emit('product:view', { id: product._id, views: product.views });
-        }
+        // if (req.io && typeof req.io.emit === 'function') {
+        //     req.io.emit('product:view', { id: product._id, views: product.views });
+        // }
 
         res.json(product);
     } catch (err) {
@@ -55,10 +55,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 
     await Product.deleteOne({ _id: product._id });
-    
-    if (req.io && typeof req.io.emit === 'function') {
-        req.io.emit('product:delete', req.params.id);
-    }
+
+    // if (req.io && typeof req.io.emit === 'function') {
+    //     req.io.emit('product:delete', req.params.id);
+    // }
 
     res.json({ message: 'Product removed' });
 });
@@ -67,8 +67,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
 // @route   POST /api/products
 // @access  Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
-    console.log(req.body ,"==>> new product body")
-    const {name,price,category,description,countInStock,features,images,isFeatured,isNewArrival} =req.body
+    console.log(req.body, "==>> new product body")
+    const { name, price, category, description, countInStock, features, images, isFeatured, isNewArrival } = req.body
     const product = new Product({
         name,
         price,
@@ -79,7 +79,7 @@ const createProduct = asyncHandler(async (req, res) => {
         // numReviews: 0,
         description,
         isFeatured,
-        features:features,
+        features: features,
         // colors
         isNewArrival
     });
@@ -87,9 +87,9 @@ const createProduct = asyncHandler(async (req, res) => {
 
     const createdProduct = await product.save();
 
-    if (req.io && typeof req.io.emit === 'function') {
-        req.io.emit('product:create', createdProduct);
-    }
+    // if (req.io && typeof req.io.emit === 'function') {
+    //     req.io.emit('product:create', createdProduct);
+    // }
 
     res.status(201).json(createdProduct);
 });
@@ -119,9 +119,9 @@ const updateProduct = asyncHandler(async (req, res) => {
 
         const updatedProduct = await product.save();
 
-        if (req.io && typeof req.io.emit === 'function') {
-            req.io.emit('product:update', updatedProduct);
-        }
+        // if (req.io && typeof req.io.emit === 'function') {
+        //     req.io.emit('product:update', updatedProduct);
+        // }
 
         res.json(updatedProduct);
     } catch (error) {
@@ -185,9 +185,9 @@ const createProductReview = asyncHandler(async (req, res) => {
 
     await product.save();
 
-    if (req.io && typeof req.io.emit === 'function') {
-        req.io.emit('product:review', { id: product._id, review });
-    }
+    // if (req.io && typeof req.io.emit === 'function') {
+    //     req.io.emit('product:review', { id: product._id, review });
+    // }
 
     // Return the review itself so frontend can update UI
     res.status(201).json(review);
@@ -197,7 +197,7 @@ module.exports = {
     getProducts,
     getProductById,
     deleteProduct,
-    createProduct, 
+    createProduct,
     updateProduct,
     createProductReview,
 };
